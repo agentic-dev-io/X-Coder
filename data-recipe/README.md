@@ -91,6 +91,22 @@ Output format (question JSONL, one per line):
 {"config_index": 123, "question": "Problem statement ...", "style": "codeforces", "stage1_analysis": {...}, "stage2_output": {...}}
 ```
 
+#### Creative-Coding Feature Generation
+
+Creative-coding feature sets live in `question_generation/features_trees_data/creative`:
+- `blender_bpy_5.jsonl`
+- `unreal_engine_5_7.jsonl`
+- `comfyui_n8n.jsonl`
+- `duckdb_surrealdb.jsonl`
+
+Force the creative template with `--template-style creative` and point `--features-file` to a creative set:
+```bash
+python scripts/generate_questions.py --features-file features_trees_data/creative/blender_bpy_5.jsonl --start 0 --end 100 --output ../output/questions_blender.jsonl --batch-size 64 --template-style creative
+python scripts/generate_questions.py --features-file features_trees_data/creative/unreal_engine_5_7.jsonl --start 0 --end 100 --output ../output/questions_unreal.jsonl --batch-size 64 --template-style creative
+python scripts/generate_questions.py --features-file features_trees_data/creative/comfyui_n8n.jsonl --start 0 --end 100 --output ../output/questions_comfyui.jsonl --batch-size 64 --template-style creative
+python scripts/generate_questions.py --features-file features_trees_data/creative/duckdb_surrealdb.jsonl --start 0 --end 100 --output ../output/questions_duckdb.jsonl --batch-size 64 --template-style creative
+```
+
 ### 2) Answer Generation
 
 Start the SGLang server + run batch/concurrent examples:
