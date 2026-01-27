@@ -22,7 +22,12 @@ _TEMPLATE_DIR = _SCRIPT_DIR.parent / "question_gen_template"
 if str(_TEMPLATE_DIR) not in sys.path:
     sys.path.insert(0, str(_TEMPLATE_DIR))
 
-from question_gen_template import ATCODER_TEMPLATE, CODEFORCES_TEMPLATE, LEETCODE_TEMPLATE
+from question_gen_template import (
+    ATCODER_TEMPLATE,
+    CODEFORCES_TEMPLATE,
+    CREATIVE_CODING_TEMPLATE,
+    LEETCODE_TEMPLATE,
+)
 from question_gen_template.select_feature import STAGE1_PROMPT_TEMPLATE
 
 # Question generation templates with their names
@@ -30,6 +35,7 @@ QUESTION_TEMPLATES = {
     "codeforces": CODEFORCES_TEMPLATE,
     "leetcode": LEETCODE_TEMPLATE,
     "atcoder": ATCODER_TEMPLATE,
+    "creative": CREATIVE_CODING_TEMPLATE,
 }
 
 
@@ -246,7 +252,9 @@ class MultiStyleTwoStageGenerator:
         template_weights: Optional[List[float]] = None,
     ) -> None:
         self.batch_client = batch_client
-        self.template_weights = template_weights or [0.7, 0.15, 0.15]
+        self.template_weights = template_weights or [0.6, 0.15, 0.15, 0.1]
+        if len(self.template_weights) != len(QUESTION_TEMPLATES):
+            self.template_weights = [1.0 / len(QUESTION_TEMPLATES)] * len(QUESTION_TEMPLATES)
 
     # --- JSON cleaning helpers (ported from the original Azure version) ---
     def clean_json_response(self, response_text: str) -> Optional[str]:
